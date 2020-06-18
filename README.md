@@ -5,8 +5,7 @@ Simple docker image providing a cluster global rsyslog server
 
 The following deployment creates a `syslog` service to a Kubernets cluster.
 
-The config map provides logging and logrotate options, feel free to use the `etc/logrotate.d/all.conf` and
-`etc/rsyslog.d/all.conf` files as templates.
+Applications in the cluster may then direct syslog messages via TCP or UDP to the server `syslog`.
 
 ```yaml
 kind: Deployment
@@ -78,4 +77,28 @@ spec:
   resources:
     requests:
       storage: 10Gi
+
+---
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-syslog
+data:
+  my-syslog.conf: |-
+    *.* -/var/log/my.log
+    
+    # we only expect local traffic, so no point in DNS lookup of the FDQNs    
+    global(net.enableDNS="off")
+  my-logrotate.conf: |-
+    /var/log/my.log {
+        rotate 3
+        copytruncate
+        size 100M
+        missingok
+        compress
+        daily
+    }
+
 ```
