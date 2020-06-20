@@ -21,6 +21,7 @@ else
 fi
 
 echo "${ROTATE_SCHEDULE} /usr/sbin/logrotate /etc/logrotate.conf" | crontab -
+crond -l "${CRON_LOG_LEVEL}"
 
 PIDFILE="/var/run/rsyslogd.pid"
 rm -f "${PIDFILE}"
