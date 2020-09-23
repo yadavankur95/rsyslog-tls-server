@@ -5,9 +5,8 @@ replicaCount: 1
 
 image:
   repository: kodgruvan/rsyslog-server
-  pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  pullPolicy: IfNotPresent
+  tag: ""
 
 pvc:
   size: 10Gi
