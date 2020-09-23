@@ -2,9 +2,9 @@
 set -eu
 
 if [ "${DO_LOG_ALL}" = true ]; then
-  echo "Will log all to /var/log/all"
+  echo "Will log all to /var/log/all.log"
 else
-  echo "Removing config for /var/log/all"
+  echo "Removing config for /var/log/all.log"
   rm /etc/rsyslog.d/all.conf
   rm /etc/logrotate.d/all.conf
   echo "Logging:"

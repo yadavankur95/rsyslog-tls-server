@@ -13,4 +13,6 @@ ENV ROTATE_SCHEDULE='0 * * * *' \
 COPY entrypoint.sh /
 COPY etc/ /etc/
 
+RUN echo "cd /var/log; echo \"Current Logs:\"; ls -lth" > /root/.bashrc
+
 ENTRYPOINT ["/entrypoint.sh"]
