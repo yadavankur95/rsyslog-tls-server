@@ -1,6 +1,11 @@
 # rsyslog-server
 Simple docker image providing a cluster global rsyslog server
 
+# helm install
+
+The rsyslog-server can be installed using the helm chart under charts/
+
+
 # sample Kubernetes deployment
 
 The following deployment creates a `syslog` service to a Kubernets cluster.
