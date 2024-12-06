@@ -4,7 +4,7 @@
 replicaCount: 1
 
 image:
-  repository: kodgruvan/rsyslog-server
+  repository: yadavankur95/rsyslog-tls-server
   pullPolicy: IfNotPresent
   tag: ""
 
@@ -45,9 +45,8 @@ dumpLogsToStdout: True
 cronLogLevel: 8
 
 syslogconf: |-
-  *.* -/var/log/my.log
-  # we only expect local traffic, so no point in DNS lookup of the FDQNs
-  global(net.enableDNS="off")
+  *.* /var/log/rsyslog-remote.log
+  $RepeatedMsgReduction on
 
 logrotateconf: |-
   /var/log/my.log {
@@ -58,3 +57,9 @@ logrotateconf: |-
       compress
       daily
   }
+
+tls:
+  enabled: false
+  cert: ""  # Your base64-encoded cert
+  key: ""  # Your base64-encoded key
+  ca: ""  # Your base64-encoded cert

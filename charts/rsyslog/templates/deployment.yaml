@@ -31,9 +31,19 @@ spec:
               value: {{ .Values.logAll | quote }}
             - name: DO_DUMP_TO_STDOUT
               value: {{ .Values.dumpLogsToStdout | quote }}
+            - name: RSYSLOG_PORT
+              {{- if .Values.tls.enabled }}
+              value: "6514"
+              {{- else }}
+              value: "514"
+              {{- end }}
           ports:
             - name: syslog
+              {{- if .Values.tls.enabled }}
+              containerPort: 6514
+              {{- else }}
               containerPort: 514
+              {{- end }}
               protocol: TCP
           livenessProbe:
             tcpSocket:
@@ -50,6 +60,10 @@ spec:
             - name: config
               mountPath: /etc/logrotate.d/my-logrotate.conf
               subPath: my-logrotate.conf
+            {{- if .Values.tls.enabled }}
+            - name: rsyslog-ssl-cert
+              mountPath: /etc/rsyslog/ssl
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
@@ -59,7 +73,11 @@ spec:
         - name: config
           configMap:
             name: syslog
-
+      {{- if .Values.tls.enabled }}
+        - name: rsyslog-ssl-cert
+          secret:
+            secretName: {{ .Release.Name }}-rsyslog-tls-cert
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

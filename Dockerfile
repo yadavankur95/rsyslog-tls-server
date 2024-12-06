@@ -1,6 +1,6 @@
 FROM alpine:3.12
 
-RUN apk add --no-cache rsyslog logrotate bash
+RUN apk add --no-cache rsyslog logrotate bash rsyslog-tls openssl
 
 EXPOSE 514/tcp
 EXPOSE 514/udp

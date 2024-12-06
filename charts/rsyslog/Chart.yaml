@@ -1,5 +1,5 @@
 apiVersion: v2
-name: rsyslog
+name: rsyslog-tls
 description: A syslog server for cluster wide logging with log rotation
 
 type: application
