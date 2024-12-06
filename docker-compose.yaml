@@ -1,0 +1,21 @@
+version: '3'
+services:
+  rsyslog-tls-server:
+    container_name: rsyslog-tls-server
+    hostname: rsyslog-tls-server
+    image: yadavankur95/rsyslog-tls-server:latest
+    user: root
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - syslog
+    environment:
+      RSYSLOG_PORT: 514
+    ports:
+      - 514:514
+    volumes:
+      - ./ssl:/etc/rsyslog/ssl #Certificate file
+      - ./log/:/var/log/
+networks:
+  syslog:
